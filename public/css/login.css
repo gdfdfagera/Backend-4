@@ -1,0 +1,113 @@
+body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.navbar {
+    background-color: #333;
+    padding: 10px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+}
+
+.nav-links ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav-links li {
+    margin-right: 15px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+    .nav-links {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .nav-links li {
+      margin-bottom: 10px;
+    }
+}
+
+main {
+    width: 100%;
+    max-width: 600px; /* Set a maximum width for better readability on larger screens */
+    margin: auto; /* Center the main content */
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for a card-like appearance */
+}
+
+form {
+    width: 100%;
+    text-align: center; /* Center the form elements */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    text-align: center;
+}
+
+footer {
+    background-color: rgb(201, 196, 196);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    main {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokemon Cards</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="/public/css/main.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">Assignment 3</div>
+    <ul class="nav-links">
+      <li><a href="/pdfSave">Save My History</a></li>
+      <li><a href="/history">History</a></li>
+      <li><a href="/findPokemon">Find Pockemon</a></li>
+      <li><a href="/main">Pockemons</a></li>
+      <li><a href="/numbers">Numbers</a></li>
+      <li><a href="/login">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <h1>Pokemon Cards</h1>
+
+    <div class="row justify-content-center">
+      <% pockemon.forEach((pokemon) => { %>
+        <div class="col-lg-4 col-md-6">
+          <div class="card" style="border: 1px solid #ccc; margin: 10px; text-align: center;">
+            <h2><%= pokemon.name %></h2>
+            <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>" class="img-fluid mx-auto" style="max-width: 150px; height: auto;">
+            <p><strong>Height:</strong> <%= pokemon.height %> dm</p>
+            <p><strong>Weight:</strong> <%= pokemon.weight %> hg</p>
+            <p><strong>Abilities:</strong> <%= pokemon.abilities.join(', ') %></p>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+
+    <div class="pagination-links">
+      <% if (currentPage > 1) { %>
+        <a href="?page=<%= currentPage - 1 %>">Previous</a>
+      <% } %>
+    
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+      <% } %>
+    
+      <% if (currentPage < totalPages) { %>
+        <a href="?page=<%= currentPage + 1 %>">Next</a>
+      <% } %>
+    </div>
+  </main>
+
+  <footer class="bg-body-tertiary text-center text-lg-start">
+    <div class="text-center p-3" style="background-color: rgb(201, 196, 196);">
+      Gainatulin Dias
+      SE-2205
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
