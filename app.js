@@ -1,12 +1,14 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-const uri = "mongodb+srv://diasgainatulinsc:EXxMtpdgdPuQW7w3@mymongodb.zokvfv8.mongodb.net/mymongodb?retryWrites=true&w=majority";
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.set('strictQuery', false);
+
+mongoose.connect(process.env.MONGODB_CONNECT_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => console.log('Connected to MongoDB'));
