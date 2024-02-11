@@ -19,7 +19,7 @@ router.get('', clearSessionOnLogin, (req, res) => {
 router.post('/', async (req, res) => {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-    if (user.deletionDate != null){
+    if (user && user.deletionDate != null){
         console.log("This user has been deleted");
         res.render('login');
     }
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
                 req.session.user = user;
                 res.redirect('/main');
             } else {
-                res.send('Invalid credentials');
+                res.redirect('/registration');
             }
         }
     }

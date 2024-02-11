@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const PORT = 3000;
 
-const uri = "mongodb+srv://diasgainatulinsc:NW9ElsPTpX2qqCkT@cluster0.jtdozxq.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://diasgainatulinsc:EXxMtpdgdPuQW7w3@mymongodb.zokvfv8.mongodb.net/mymongodb?retryWrites=true&w=majority";
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
