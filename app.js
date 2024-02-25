@@ -3,8 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const methodOverride = require('method-override')
 const PORT = process.env.PORT || 3000;
-
 
 mongoose.set('strictQuery', false);
 
@@ -22,22 +22,31 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-
-app.use('/public', express.static('public'));
+app.use(methodOverride('_method'))
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/public', express.static('public'));
+
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
 
 app.use('/login', require('./routs/login'));
 app.use('/', require('./routs/login'));
+
+
+app.use('/quiz', require('./routs/quiz'));
+app.use('/quizScore', require('./routs/quizScore'));
+
+
 app.use('/registration', require('./routs/registration'));
-app.use('/main', require('./routs/main'));
-app.use('/numbers', require('./routs/numbers'));
+app.use('/stock', require('./routs/stock'));
 app.use('/admin', require('./routs/admin'));
 app.use('/adminUpdate', require('./routs/adminUpdate'));
 app.use('/adminDelete', require('./routs/adminDelete'));
-app.use('/findPokemon', require('./routs/findPokemon'));
+app.use('/admin_main', require('./routs/admin_main'));
+app.use('/admin_edit', require('./routs/admin_edit'));
+app.use('/coin', require('./routs/coin'));
 app.use('/history', require('./routs/history'));
 app.use('/pdfSave', require('./routs/pdfSave'));
 

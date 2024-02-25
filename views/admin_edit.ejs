@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="<%= lang %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="adminPanel.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/css/admin_edit.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Assignment 3</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%= lang === 'en' ? '/login' : '/login?lang=ru' %>"><%= lang === 'ru' ? 'Выйти' : 'Logout' %></a>
+                    </li>
+                </ul>
+            </div>
+            <form action="<%= lang === 'en' ? '/admin_edit?lang=en' : '/admin_edit?lang=ru' %>" class="form-inline ml-auto">
+                <div class="form-group">
+                    <label for="langSelect" class="mr-2">Language:</label>
+                    <select class="form-control" id="langSelect" name="lang" onchange="this.form.submit()">
+                        <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
+                        <option value="ru" <%= lang === 'ru' ? 'selected' : '' %>>RU</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </nav>
+
+
+    <main>
+        <div id="crud">
+            <ul>
+                <li><a href="/admin?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Добавить пользователя' : 'Add user' %></a></li>
+                <li><a href="/adminUpdate?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Обновить пользователя' : 'Update user' %></a></li>
+                <li><a href="/adminDelete?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Удалить пользователя' : 'Delete user' %></a></li>
+                <li><a href="/admin_main?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Посмотреть элементы' : 'See elements' %></a></li>
+                <li><a href="/admin_edit?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Изменить элементы' : 'Change elements' %></a></li>
+            </ul>
+        </div>
+        <div id="concrete">
+            <div id="edit">
+            <% if (elements && elements.length > 0) { %>
+                <% elements.forEach(element => { %>
+                    <% if (element.deletionDate === null){ %>
+                <div class="card">
+                    <form action="<%= lang === 'en' ? '/admin_edit?lang=en&_method=PUT' : '/admin_edit?lang=ru&_method=PUT' %>" method="POST" id="editForm">
+                        <img src="<%= element.url1 %>" alt="Изображение" class="img-fluid">
+                        <div class="card-body">
+                            <input type="text" id="id" name="id" value="<%= element._id %>" style="display: none;">
+                            <label for="url1">URL 1:</label>
+                            <input type="text" name="url1" id="url1" value="<%= element.url1 %>">
+                            
+                            <label for="url2">URL 2:</label>
+                            <input type="text" name="url2" id="url2" value="<%= element.url2 %>">
+                            
+                            <label for="url3">URL 3:</label>
+                            <input type="text" name="url3" id="url3" value="<%= element.url3 %>">
+                            
+                            <label for="name"><%= lang === 'ru' ? 'Название:' : 'Name:' %></label>
+                            <input type="text" name="name" id="name" value="<%= element.name %>">
+                            
+                            <label for="description1"><%= lang === 'ru' ? 'Описание:' : 'Description:' %></label>
+                            <input type="text" name="description" id="description" value="<%= element.description %>" style="display: none;">
+                            <textarea id="description1"><%= element.description %></textarea>
+                            
+                            <p><%= lang === 'ru' ? 'Временная метка создания:' : 'Creation Date:' %> <span id="createdAt"><%= element.creationDate %></span></p>
+                            <p><%= lang === 'ru' ? 'Временная метка обновления:' : 'Updation Date:' %> <span id="updatedAt"><%= element.updateDate %></span></p>
+                            
+                            <button type="submit"><%= lang === 'ru' ? 'Обновить элемент' : 'Update Element' %></button>
+                        </div>
+                    </form>
+                    <form action="<%= lang === 'en' ? '/admin_edit?lang=en&_method=DELETE' : '/admin_edit?lang=ru&_method=DELETE' %>" class="sec" method="POST">
+                        <input type="text" name="id" value="<%= element._id %>" style="display: none;">
+                        <button type="submit"><%= lang === 'ru' ? 'Удалить элемент' : 'Delete Element' %></button>
+                    </form>
+                </div>
+                    <% } %>
+                <% }) %>
+            <% } %>
+            </div>
+            <div id="add">
+                <div id="add-form" class="card">
+                    <div class="card-body">
+                        <h2><%= lang === 'ru' ? 'Добавить елемент' : 'Add element' %></h2>
+                        <form id="imageForm" method="post">
+                            <label for="add-url1">URL 1:</label>
+                            <input type="text" id="add-url1" name="url1" required>
+                            
+                            <label for="add-url2">URL 2:</label>
+                            <input type="text" id="add-url2" name="url2" required>
+                            
+                            <label for="add-url3">URL 3:</label>
+                            <input type="text" id="add-url3" name="url3" required>
+                            
+                            <label for="add-name"><%= lang === 'ru' ? 'Название:' : 'Name:' %></label>
+                            <input type="text" id="add-name" name="name" required>
+                            
+                            <label for="add-description"><%= lang === 'ru' ? 'Описание:' : 'Description:' %></label>
+                            <textarea id="add-description" name="description" required></textarea>
+                            
+                            <button type="submit"><%= lang === 'ru' ? 'Добавить' : 'Add' %></button>
+                        </form>
+                    </div>
+                </div>
+                <button id="showFormBtn" onclick="toggleForm()"><%= lang === 'ru' ? 'Добавить элемент' : 'Add element' %></button>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="bg-body-tertiary text-center text-lg-start">
+        <div class="text-center p-3" style="background-color: rgb(201, 196, 196);">
+          Gainatulin Dias
+          SE-2205
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        function toggleForm() {
+            var addForm = document.getElementById('add-form');
+            addForm.classList.toggle('show');
+        }
+    </script>    
+</body>
+</html>

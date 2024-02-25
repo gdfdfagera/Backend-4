@@ -6,7 +6,7 @@
     <title>Admin Panel</title>
     <link rel="stylesheet" href="adminPanel.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="/public/css/admin.css">
+    <link rel="stylesheet" href="/public/css/admin_main.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -23,9 +23,9 @@
                     </li>
                 </ul>
             </div>
-            <form action="<%= lang === 'en' ? '/adminUpdate?lang=en' : '/adminUpdate?lang=ru' %>" class="form-inline ml-auto">
+            <form action="<%= lang === 'en' ? '/admin_main?lang=en' : '/admin_main?lang=ru' %>" class="form-inline ml-auto">
                 <div class="form-group">
-                    <label for="langSelect" class="mr-2" style="color: white;">Language:</label>
+                    <label for="langSelect" class="mr-2">Language:</label>
                     <select class="form-control" id="langSelect" name="lang" onchange="this.form.submit()">
                         <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
                         <option value="ru" <%= lang === 'ru' ? 'selected' : '' %>>RU</option>
@@ -46,37 +46,46 @@
                 <li><a href="/admin_edit?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Изменить элементы' : 'Change elements' %></a></li>
             </ul>
         </div>
-        <div id="concrete2">
-            <% if (users && users.length > 0) { %>
-                <% users.forEach(user => { %>
-                    <% if (user.deletionDate === null){ %>
-                    <div class="user-card">
-                        <form action="<%= lang === 'en' ? '/adminUpdate?lang=en' : '/adminUpdate?lang=ru' %>" id="form" method="post" id="update">
-                            <input type="text" name="id" value="<%= user._id %>" style="display: none;">
-                            <input type="text" name="createD" value="<%= user.creationDate %>" style="display: none;">
-                            <input type="text" name="deleteD" value="<%= user.deletionDate %>" style="display: none;">
-                            <h3>
-                                <input type="text" name="username" value="<%= user.username %>" />
-                            </h3>
-                            <p><%= lang === 'ru' ? 'Пароль:' : 'Password: ' %>
-                                <input type="text" name="password" value="<%= user.password %>" />
-                            </p>
-                            <p><%= lang === 'ru' ? 'Дата создания:' : 'Creation date::' %> <%= user.creationDate %></p>
-                            <p><%= lang === 'ru' ? 'Дата обновления:' : 'Update date:' %> <%= user.updateDate || (lang === 'ru' ? 'Обновлений не было' : 'There was no any update') %></p>
-                            <p><%= lang === 'ru' ? 'Дата удаления:' : 'Deletion date:' %> <%= user.deletionDate || (lang === 'ru' ? 'Удаления не было' : 'There was no any delete')  %></p>
-                            <p><%= lang === 'ru' ? 'Является админом:' : 'Is admin:' %> 
-                                <input type="checkbox" name="isAdmin" <% if (user.isAdmin) { %>checked<% } %> />
-                            </p>
-                            <button type="submit"><%= lang === 'ru' ? 'Сохранить изменения' : 'Save Changes' %></button>
-                        </form>
-                    </div>
+        <div id="side">
+            <% if (elements && elements.length > 0) { %>
+                <% elements.forEach((element, index) => { %>
+                    <% if (element.deletionDate === null){ %>
+                        <h3><%= element.name %></h3>
+                        <div id="concrete<%= index %>" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="<%= element.url1 %>" class="d-block w-100" alt="">
+                                    <div class="carousel-caption d-none d-md-block">
+                                    </div>
+                                </div>
+                        
+                                <div class="carousel-item">
+                                    <img src="<%= element.url2 %>" class="d-block w-100" alt="">
+                                    <div class="carousel-caption d-none d-md-block">
+                                    </div>
+                                </div>
+                        
+                                <div class="carousel-item">
+                                    <img src="<%= element.url3 %>" class="d-block w-100" alt="">
+                                    <div class="carousel-caption d-none d-md-block">
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <button class="carousel-control-prev" type="button" data-bs-target="#concrete<%= index %>" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden"><%= lang === 'ru' ? 'Назад' : 'Previous' %></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#concrete<%= index %>" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden"><%= lang === 'ru' ? 'Вперед' : 'Next' %></span>
+                            </button>
+                        </div>
+                        <p><%= element.description %></p>
                     <% } %>
                 <% }) %>
-            <% } else { %>
-                <p><%= lang === 'ru' ? 'Юзеры не были найдены.' : 'No users found.' %> <%= user.isAdmin %></p>
             <% } %>
         </div>
-        
     </main>
 
 
@@ -88,5 +97,14 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all carousels with a class instead of an ID
+            var carousels = document.querySelectorAll('.carousel');
+            carousels.forEach(function(carousel) {
+                new bootstrap.Carousel(carousel);
+            });
+        });
+    </script>
 </body>
 </html>

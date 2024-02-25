@@ -11,16 +11,25 @@
     <nav class="navbar">
         <div class="logo">Assignment 3</div>
         <ul class="nav-links">
+            <form action="<%= lang === 'en' ? '/registration?lang=en' : '/registration?lang=ru' %>" class="form-inline ml-auto">
+                <div class="form-group">
+                    <label for="langSelect" class="mr-2"style="color: white;"><%= lang === 'ru' ? 'Язык:' : 'Language:' %></label>
+                    <select class="form-control" id="langSelect" name="lang" onchange="this.form.submit()">
+                        <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
+                        <option value="ru" <%= lang === 'ru' ? 'selected' : '' %>>RU</option>
+                    </select>
+                </div>
+            </form>
         </ul>
     </nav>
 
     <main>
         <form action="/registration" method="post">
-            <label for="username">Username:</label>
+            <label for="username"><%= lang === 'ru' ? 'Имя пользователя' : 'Username:' %></label>
             <input type="text" id="username" name="username" required><br>
-            <label for="password">Password:</label>
+            <label for="password"><%= lang === 'ru' ? 'Пароль:' : 'Password:' %></label>
             <input type="password" id="password" name="password" required><br>
-            <button type="submit">Register</button>
+            <button type="submit"><%= lang === 'ru' ? 'Зарегестрироваться' : 'Register' %></button>
         </form>
     </main>
 

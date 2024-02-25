@@ -1,29 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const PDFDocument = require('pdfkit');
-const NumberFact = require('../models/numberUser');
-const Pokemon = require('../models/pokemonUser');
-
-const isAuthenticated = (req, res, next) => {
-    if (req.session.user) {
-        if (req.session.user.isAdmin != true){
-          next();
-        } else {
-          res.redirect('/admin');
-        }
-    } else {
-        res.redirect('/');
-    }
-};
+const Coin = require('../models/coin');
+const Stock = require('../models/stock');
+const {isAuthenticated} = require('../middleware/authentication');
 
 router.get('', isAuthenticated, async (req, res) => {
-    res.render('pdfSave');
+    const lang = req.query.lang || 'en';
+    res.render('pdfSave', { lang: lang });
 });
 
 router.post('/', async (req, res) => {
     try {
-        const numberFacts = await NumberFact.find({ userId: req.session.user._id }).exec();
-        const pokemons = await Pokemon.find({ userId: req.session.user._id }).exec();
+        const stock = await Stock.find({ userId: req.session.user._id }).exec();
+        const coin = await Coin.find({ userId: req.session.user._id }).exec();
 
         const doc = new PDFDocument();
         const fileName = `history-${req.session.user.username}.pdf`;
@@ -33,15 +23,14 @@ router.post('/', async (req, res) => {
 
         doc.pipe(res);
 
-        doc.fontSize(16).text('Number Facts', { align: 'center' });
-        numberFacts.forEach((fact) => {
-            doc.fontSize(12).text(`Input: ${fact.input}, Output: ${fact.output}, Timestamp: ${fact.timestamp}`);
+        doc.fontSize(16).text('Stocks', { align: 'center' });
+        stock.forEach((fact) => {
+            doc.fontSize(12).text(`Symbol: ${fact.symbol}, Price: ${fact.price}`);
         });
 
-        doc.addPage().fontSize(16).text('Pokemons', { align: 'center' });
-        pokemons.forEach((pokemon) => {
-            doc.fontSize(12).text(`Name: ${pokemon.name}, Height: ${pokemon.height}, Weight: ${pokemon.weight}`);
-            doc.fontSize(10).text(`Abilities: ${pokemon.abilities.join(', ')}`);
+        doc.addPage().fontSize(16).text('Coins', { align: 'center' });
+        coin.forEach((co) => {
+            doc.fontSize(12).text(`Coin ID: ${co.coinID}, vsCurrency: ${co.vsCurrency}`);
         });
 
         doc.end();

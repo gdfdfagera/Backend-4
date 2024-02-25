@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="<%= lang %>">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,44 +12,48 @@
   <nav class="navbar">
     <div class="logo">Assignment 3</div>
     <ul class="nav-links">
-      <li><a href="/pdfSave">Save My History</a></li>
-      <li><a href="/history">History</a></li>
-      <li><a href="/findPokemon">Find Pockemon</a></li>
-      <li><a href="/main">Pockemons</a></li>
-      <li><a href="/numbers">Numbers</a></li>
-      <li><a href="/login">Logout</a></li>
+      <li><a href="/pdfSave?lang=<%= lang %>"><%= lang === 'ru' ? 'Сохранить мою историю' : 'Save My History' %></a></li>
+      <li><a href="/history?lang=<%= lang %>"><%= lang === 'ru' ? 'История' : 'History' %></a></li>
+      <li><a href="/coin?lang=<%= lang %>"><%= lang === 'ru' ? 'Найти криптовалюту' : 'Find Coins' %></a></li>
+      <li><a href="/stock?lang=<%= lang %>"><%= lang === 'ru' ? 'Стоимость акций' : 'Price of stocks' %></a></li>
+      <li><a href="/login?lang=<%= lang %>"><%= lang === 'ru' ? 'Выйти' : 'Logout' %></a></li>
     </ul>
+    <form action="<%= lang === 'en' ? '/history?lang=en' : '/history?lang=ru' %>" class="form-inline ml-auto">
+      <div class="form-group">
+          <label for="langSelect" class="mr-2" style="color: white;"><%= lang === 'ru' ? 'Язык:' : 'Language:' %></label>
+          <select class="form-control" id="langSelect" name="lang" onchange="this.form.submit()">
+              <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
+              <option value="ru" <%= lang === 'ru' ? 'selected' : '' %>>RU</option>
+          </select>
+      </div>
+    </form>
   </nav>
 
   <main class="container">
     <section id="section1">
-        <h2>Number Facts</h2>
+        <h2><%= lang === 'ru' ? 'Стоимость акции' : 'Stock price' %></h2>
         <ul id="numberFactsList">
-          <% for (const fact of numberFacts) { %>
+          <% for (const element of stock) { %>
             <li>
-              <strong>Input:</strong> <%= fact.input %>, 
-              <strong>Output:</strong> <%= fact.output %>, 
-              <strong>Timestamp:</strong> <%= fact.timestamp %>
+              <strong><%= lang === 'ru' ? 'Входные данные:' : 'Input:' %></strong> <%= element.symbol %>, 
+              <strong><%= lang === 'ru' ? 'Ответ:' : 'Output:' %></strong> <%= element.price %>
             </li>
           <% } %>
         </ul>
-        <button onclick="showSection(2)">Go to Section 2</button>
+        <button onclick="showSection(2)"><%= lang === 'ru' ? 'Перейти в секцию 2' : 'Go to Section 2' %></button>
       </section>
   
       <section id="section2" style="display: none;">
-        <h2>Pokemons</h2>
+        <h2><%= lang === 'ru' ? 'Язык:' : 'Language:' %>Pokemons</h2>
         <div id="pokemonCardsContainer" class="card-container">
-          <% for (const pokemon of pokemons) { %>
+          <% for (const element of coin) { %>
             <div class="card">
-              <img src="<%= pokemon.image %>" alt="<%= pokemon.name %>">
-              <h3><%= pokemon.name %></h3>
-              <p>Height: <%= pokemon.height %> m</p>
-              <p>Weight: <%= pokemon.weight %> kg</p>
-              <p>Abilities: <%= pokemon.abilities.join(', ') %></p>
+              <p><%= lang === 'ru' ? 'ID криптовалюты:' : 'Coin ID:' %> <%= element.coinID %> m</p>
+              <p><%= lang === 'ru' ? 'Валюта:' : 'vsCurrency:' %> <%= element.vsCurrency %></p>
             </div>
           <% } %>
         </div>
-        <button onclick="showSection(1)">Go to Section 1</button>
+        <button onclick="showSection(1)"><%= lang === 'ru' ? 'Перейти в секцию 1' : 'Go to Section 1' %></button>
       </section>
   </main>
 

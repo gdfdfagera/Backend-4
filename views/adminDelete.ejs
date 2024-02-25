@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= lang %>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,40 +9,61 @@
     <link rel="stylesheet" href="/public/css/admin.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">Assignment 3</div>
-      <ul class="nav-links">
-        <li><a href="/login">Logout</a></li>
-      </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Assignment 3</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%= lang === 'en' ? '/login' : '/login?lang=ru' %>"><%= lang === 'ru' ? 'Выйти' : 'Logout' %></a>
+                    </li>
+                </ul>
+            </div>
+            <form action="<%= lang === 'en' ? '/adminDelete?lang=en' : '/adminDelete?lang=ru' %>" class="form-inline ml-auto">
+                <div class="form-group">
+                    <label for="langSelect" class="mr-2" style="color: white;">Language:</label>
+                    <select class="form-control" id="langSelect" name="lang" onchange="this.form.submit()">
+                        <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
+                        <option value="ru" <%= lang === 'ru' ? 'selected' : '' %>>RU</option>
+                    </select>
+                </div>
+            </form>
+        </div>
     </nav>
 
 
     <main>
         <div id="crud">
             <ul>
-                <li><a href="/admin" class="cud">Add user</a></li>
-                <li><a href="/adminUpdate" class="cud">Update user</a></li>
-                <li><a href="/adminDelete" class="cud">Delete user</a></li>
+                <li><a href="/admin?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Добавить пользователя' : 'Add user' %></a></li>
+                <li><a href="/adminUpdate?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Обновить пользователя' : 'Update user' %></a></li>
+                <li><a href="/adminDelete?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Удалить пользователя' : 'Delete user' %></a></li>
+                <li><a href="/admin_main?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Посмотреть элементы' : 'See elements' %></a></li>
+                <li><a href="/admin_edit?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Изменить элементы' : 'Change elements' %></a></li>
             </ul>
         </div>
         <div id="concrete2">
             <% if (users && users.length > 0) { %>
                 <% users.forEach(user => { %>
                     <div class="user-card">
-                        <form action="/adminDelete" method="post" id="update">
+                        <form action="<%= lang === 'en' ? '/adminDelete?lang=en' : '/adminDelete?lang=ru' %>" method="post" id="update">
                             <input type="text" name="id" value="<%= user._id %>" style="display: none;">
                             <h3><%= user.username %></h3>
-                            <p id="pass">Password: <%= user.password %></p>
-                            <p>Creation date: <%= user.creationDate %></p>
-                            <p>Update date: <%= user.updateDate || 'there was no any update' %></p>
-                            <p>Deletion date: <%= user.deletionDate || 'there was no any delete'  %></p>
-                            <p>Is admin: <%= user.isAdmin %></p>
-                            <button type="submit">Delete</button>
+                            <p id="pass"><%= lang === 'ru' ? 'Пароль:' : 'Password:' %> <%= user.password %></p>
+                            <p><%= lang === 'ru' ? 'Дата создания:' : 'Creation date::' %> <%= user.creationDate %></p>
+                            <p><%= lang === 'ru' ? 'Дата обновления:' : 'Update date:' %> <%= user.updateDate || (lang === 'ru' ? 'Обновлений не было' : 'There was no any update') %></p>
+                            <p><%= lang === 'ru' ? 'Дата удаления:' : 'Deletion date:' %> <%= user.deletionDate || (lang === 'ru' ? 'Удаления не было' : 'There was no any delete')  %></p>
+                            <p><%= lang === 'ru' ? 'Является админом:' : 'Is admin:' %> <%= user.isAdmin %></p>
+                            <button type="submit"><%= lang === 'ru' ? 'Удалить' : 'Delete' %></button>
                         </form>
                     </div>
                 <% }) %>
             <% } else { %>
-                <p>No users found.</p>
+                <p><%= lang === 'ru' ? 'Юзеры не были найдены.' : 'No users found.' %> <%= user.isAdmin %></p>
             <% } %>
         </div>
         

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= lang %>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,18 +11,27 @@
     <nav class="navbar">
         <div class="logo">Assignment 3</div>
         <ul class="nav-links">
+            <form action="<%= lang === 'en' ? '/login?lang=en' : '/login?lang=ru' %>" class="form-inline ml-auto">
+                <div class="form-group">
+                    <label for="langSelect" class="mr-2" style="color: white;"><%= lang === 'ru' ? 'Язык:' : 'Language:' %></label>
+                    <select class="form-control" id="langSelect" name="lang" onchange="this.form.submit()">
+                        <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
+                        <option value="ru" <%= lang === 'ru' ? 'selected' : '' %>>RU</option>
+                    </select>
+                </div>
+            </form>
         </ul>
     </nav>
 
     <main>
-        <form action="/login" method="post">
-            <label for="username">Username:</label>
+        <form action="<%= lang === 'en' ? '/login?lang=en' : '/login?lang=ru' %>" method="post">
+            <label for="username"><%= lang === 'ru' ? 'Имя пользователя:' : 'Username:' %></label>
             <input type="text" id="username" name="username" required><br>
-            <label for="password">Password:</label>
+            <label for="password"><%= lang === 'ru' ? 'Пароль:' : 'Password:' %></label>
             <input type="password" id="password" name="password" required><br>
-            <button type="submit">Login</button>
+            <button type="submit"><%= lang === 'ru' ? 'Войти' : 'Login' %></button>
         </form>
-        <p>Don't have an account? <a href="/registration">Register here</a></p>
+        <p><%= lang === 'ru' ? 'Нет аккуанта?' : 'Dont have an account?' %> <a href="/registration?lang=<%= lang %>"><%= lang === 'ru' ? 'Зарегестрируйся здесь' : 'Register here' %></a></p>
     </main>
 
     <footer class="bg-body-tertiary text-center text-lg-start">

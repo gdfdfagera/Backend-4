@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= lang %>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,34 +9,55 @@
     <link rel="stylesheet" href="/public/css/admin.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">Assignment 3</div>
-      <ul class="nav-links">
-        <li><a href="/login">Logout</a></li>
-      </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Assignment 3</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<%= lang === 'en' ? '/login' : '/login?lang=ru' %>"><%= lang === 'ru' ? 'Выйти' : 'Logout' %></a>
+                    </li>
+                </ul>
+            </div>
+            <form action="<%= lang === 'en' ? '/admin?lang=en' : '/admin?lang=ru' %>" class="form-inline ml-auto">
+                <div class="form-group">
+                    <label for="langSelect" class="mr-2"style="color: white;"><%= lang === 'ru' ? 'Язык:' : 'Language:' %></label>
+                    <select class="form-control" id="langSelect" name="lang" onchange="this.form.submit()">
+                        <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
+                        <option value="ru" <%= lang === 'ru' ? 'selected' : '' %>>RU</option>
+                    </select>
+                </div>
+            </form>
+        </div>
     </nav>
 
 
     <main>
         <div id="crud">
             <ul>
-                <li><a href="/admin" class="cud">Add user</a></li>
-                <li><a href="/adminUpdate" class="cud">Update user</a></li>
-                <li><a href="/adminDelete" class="cud">Delete user</a></li>
+                <li><a href="/admin?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Добавить пользователя' : 'Add user' %></a></li>
+                <li><a href="/adminUpdate?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Обновить пользователя' : 'Update user' %></a></li>
+                <li><a href="/adminDelete?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Удалить пользователя' : 'Delete user' %></a></li>
+                <li><a href="/admin_main?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Посмотреть элементы' : 'See elements' %></a></li>
+                <li><a href="/admin_edit?lang=<%= lang %>" class="cud"><%= lang === 'ru' ? 'Изменить элементы' : 'Change elements' %></a></li>
             </ul>
         </div>
         <div id="concrete">
-            <form action="/admin" method="post">
-                <label for="username">Username:</label>
+            <form action="<%= lang === 'en' ? '/admin?lang=en' : '/admin?lang=ru' %>" method="post">
+                <label for="username"><%= lang === 'ru' ? 'Имя пользователя:' : 'Username:' %></label>
                 <input type="text" id="username" name="username" required>
         
-                <label for="password">Password:</label>
+                <label for="password"><%= lang === 'ru' ? 'Пароль:' : 'Password:' %></label>
                 <input type="password" id="password" name="password" required>
         
-                <label for="isAdmin">Is Admin:</label>
+                <label for="isAdmin"><%= lang === 'ru' ? 'Является администратором' : 'Is Admin:' %></label>
                 <input type="checkbox" id="isAdmin" name="isAdmin">
         
-                <button type="submit">Submit</button>
+                <button type="submit"><%= lang === 'ru' ? 'Создать' : 'Create' %></button>
             </form>
         </div>
     </main>

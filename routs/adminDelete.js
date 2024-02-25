@@ -1,24 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const {isAuthenticatedAdmin} = require('../middleware/authentication');
 
-const isAuthenticated = (req, res, next) => {
-    if (req.session.user) {
-        if (req.session.user.isAdmin == true){
-            next();
-        } else {
-            res.redirect('/main');
-        }
-    } else {
-        res.redirect('/');
-    }
-};
-
-router.get('', isAuthenticated, async (req, res) => {
+router.get('', isAuthenticatedAdmin, async (req, res) => {
     try {
+        const lang = req.query.lang || 'en';
         const users = await User.find();
 
-        res.render('../views/adminDelete.ejs', { users: users });
+        res.render('../views/adminDelete.ejs', { users: users, lang: lang });
     } catch (error) {
         console.error('Error fetching users:', error);
         res.status(500).send('Internal Server Error');
@@ -26,8 +16,8 @@ router.get('', isAuthenticated, async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    const lang = req.query.lang || 'en';
     const id = req.body.id;
-    
     const filter = { _id: id };
     const update = {
         deletionDate: new Date()
@@ -36,7 +26,7 @@ router.post('/', async (req, res) => {
     try {
         const result = await User.updateOne(filter, update);
         console.log('Delete result:', result);
-        res.redirect('/adminDelete');
+        res.redirect(`/adminDelete?lang=${lang}`);
     } catch (error) {
         console.error('Error updating user:', error);
         res.status(500).send('Internal Server Error');

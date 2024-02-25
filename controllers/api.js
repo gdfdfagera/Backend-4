@@ -1,80 +1,36 @@
 const axios = require('axios');
 
-const ITEMS_PER_PAGE = 10;
 
-const getPokemons = async (userRequest) => {
+const API = "58U4QMAI4ZXD0YHI"
+
+const getPrice = async (userRequest) => {
     try {
-        const page = userRequest.query.page || 1;
-        const offset = (page - 1) * ITEMS_PER_PAGE;
+        const symbol = userRequest.body.symbol;
+        const apiUrl = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${API}`;
+        
+        const response = await axios.get(apiUrl);
+        const price = response.data['Global Quote']['05. price'];
+        
     
-        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${ITEMS_PER_PAGE}&offset=${offset}`);
-        const pokemonList = response.data.results;
-    
-        const pokemonDataArray = [];
-    
-        for (const pokemon of pokemonList) {
-          const pokemonInfo = await axios.get(pokemon.url);
-          const pokemonData = pokemonInfo.data;
-    
-          pokemonDataArray.push({
-            name: pokemonData.name,
-            image: pokemonData.sprites.front_default,
-            height: pokemonData.height,
-            weight: pokemonData.weight,
-            abilities: pokemonData.abilities.map((ability) => ability.ability.name),
-          });
-        }
-    
-        return {pokemonDataArray, page};
+        return { symbol, price };
       } catch (error) {
         console.error('Error fetching Pokemon information:', error.message);
         return;
       }
 };
 
-const getSpecialPokemon = async (userRequest) => {
+const getStockPrice = async (userRequest) => {
   try {
-      const pokemonName = userRequest.body.name;
-
-      if (!pokemonName) {
-          throw new Error('Pokemon name is missing in the request.');
-      }
-
-      const pokemonInfo = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-      const pokemonData = pokemonInfo.data;
-
-      const pokemon = {
-          name: pokemonData.name,
-          image: pokemonData.sprites.front_default,
-          height: pokemonData.height,
-          weight: pokemonData.weight,
-          abilities: pokemonData.abilities.map((ability) => ability.ability.name),
-      };
-      
-      return { pokemon };
-  } catch (error) {
-      console.error('Error fetching Pokemon:', error.message);
-      return { error: error.message };
-  }
+      const { coinId, vsCurrency } = userRequest.body;
+      const response = await axios.get(`https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=${vsCurrency}`);
+      return response;
+    } catch (error) {
+      console.error('Error fetching Pokemon information:', error.message);
+      return;
+    }
 };
-
-const getNumberFact = async (userRequest) => {
-  const number = userRequest.body.number;
-  try {
-    const response = await axios.get(`http://numbersapi.com/${number}`);
-    const trivia = response.data;
-
-    return trivia;
-  } catch (error) {
-    console.error('Error fetching fact information');
-    return;
-  }
-};
-
-
 
 module.exports = { 
-  getPokemons,
-  getNumberFact,
-  getSpecialPokemon
+  getPrice,
+  getStockPrice
 };

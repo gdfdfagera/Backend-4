@@ -3,24 +3,15 @@ const router = express.Router();
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const {isAuthenticatedAdmin} = require('../middleware/authentication');
 
-const isAuthenticated = (req, res, next) => {
-    if (req.session.user) {
-        if (req.session.user.isAdmin == true){
-            next();
-        } else {
-            res.redirect('/main');
-        }
-    } else {
-        res.redirect('/');
-    }
-};
-
-router.get('', isAuthenticated, async (req, res) => {
-    res.render('../views/admin.ejs', {users: null})
+router.get('', isAuthenticatedAdmin, async (req, res) => {
+    const lang = req.query.lang || 'en';
+    res.render('../views/admin.ejs', {users: null, lang: lang})
 });
 
 router.post('/', async (req, res) => {
+    const lang = req.query.lang || 'en';
     const username = req.body.username;
     const existingUser = await User.findOne({ username });
 
@@ -38,9 +29,10 @@ router.post('/', async (req, res) => {
             deletionDate: null,
             isAdmin: isAdmin,
           });
+          
         await newUser.save();
 
-        res.redirect('admin');
+        res.redirect(`admin?lang=${lang}`);
     }
 });
 

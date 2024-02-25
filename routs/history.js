@@ -1,25 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const NumberFact = require('../models/numberUser');
-const Pokemon = require('../models/pokemonUser');
+const Stock = require('../models/stock');
+const Coin = require('../models/coin');
+const {isAuthenticated} = require('../middleware/authentication');
 
-const isAuthenticated = (req, res, next) => {
-    if (req.session.user) {
-        if (req.session.user.isAdmin != true){
-          next();
-        } else {
-          res.redirect('/admin');
-        }
-    } else {
-        res.redirect('/');
-    }
-};
 
 router.get('/', isAuthenticated, async (req, res) => {
     try {
-        const numberFacts = await NumberFact.find({ userId: req.session.user._id }).exec();
-        const pokemons = await Pokemon.find({ userId: req.session.user._id }).exec();
-        res.render('history', { numberFacts, pokemons });
+        const lang = req.query.lang || 'en';
+        const stock = await Stock.find({ userId: req.session.user._id }).exec();
+        const coin = await Coin.find({ userId: req.session.user._id }).exec();
+        res.render('history', { stock, coin, lang: lang });
     } catch (error) {
       console.error('Error fetching Pokemon information:', error.message);
       res.status(500).send('Internal Server Error');
