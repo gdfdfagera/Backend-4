@@ -12,6 +12,7 @@
   <nav class="navbar">
     <div class="logo">Assignment 3</div>
     <ul class="nav-links">
+      <li><a href="/quiz?lang=<%= lang %>"><%= lang === 'ru' ? 'Викторина' : 'Quiz' %></a></li>
       <li><a href="/pdfSave?lang=<%= lang %>"><%= lang === 'ru' ? 'Сохранить мою историю' : 'Save My History' %></a></li>
       <li><a href="/history?lang=<%= lang %>"><%= lang === 'ru' ? 'История' : 'History' %></a></li>
       <li><a href="/coin?lang=<%= lang %>"><%= lang === 'ru' ? 'Найти криптовалюту' : 'Find Coins' %></a></li>

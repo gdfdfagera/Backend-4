@@ -1,0 +1,99 @@
+body{
+    width: 100%;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.navbar {
+background-color: #333;
+padding: 10px;
+color: white;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.logo {
+font-size: 1.5em;
+font-weight: bold;
+}
+
+.nav-links {
+list-style: none;
+display: flex;
+margin: 0;
+}
+
+.nav-links li {
+margin-right: 15px;
+}
+
+.nav-links a {
+text-decoration: none;
+color: white;
+font-weight: bold;
+}
+
+
+
+main {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+#timer {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#countdown {
+    font-weight: bold;
+    color: #e44d26; /* Change to your preferred color */
+}
+
+.question {
+    margin-bottom: 20px;
+}
+
+.question p {
+    font-weight: bold;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #e44d26;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+footer{
+    width: 100%;
+}

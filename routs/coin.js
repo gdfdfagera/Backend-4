@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const axios = require('axios');
 const Coin = require('../models/coin');
 const { getStockPrice } = require('../controllers/api');
 const {isAuthenticated} = require('../middleware/authentication');

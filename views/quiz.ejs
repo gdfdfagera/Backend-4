@@ -1,102 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= lang %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timed Quiz</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="/public/css/quiz.css">
 </head>
 <body>
-    <h1>Crypto and Finance Quiz</h1>
+  <nav class="navbar">
+    <div class="logo">Assignment 3</div>
+    <ul class="nav-links">
+      <li><a href="/quiz?lang=<%= lang %>"><%= lang === 'ru' ? 'Викторина' : 'Quiz' %></a></li>
+      <li><a href="/pdfSave?lang=<%= lang %>"><%= lang === 'ru' ? 'Сохранить мою историю' : 'Save My History' %></a></li>
+      <li><a href="/history?lang=<%= lang %>"><%= lang === 'ru' ? 'История' : 'History' %></a></li>
+      <li><a href="/coin?lang=<%= lang %>"><%= lang === 'ru' ? 'Найти криптовалюту' : 'Find Coins' %></a></li>
+      <li><a href="/stock?lang=<%= lang %>"><%= lang === 'ru' ? 'Стоимость акций' : 'Price of stocks' %></a></li>
+      <li><a href="/login?lang=<%= lang %>"><%= lang === 'ru' ? 'Выйти' : 'Logout' %></a></li>
+    </ul>
+    <form action="<%= lang === 'en' ? '/quiz?lang=en' : '/quiz?lang=ru' %>" class="form-inline ml-auto">
+      <div class="form-group">
+          <label for="langSelect" class="mr-2" style="color: white;"><%= lang === 'ru' ? 'Язык:' : 'Language:' %></label>
+          <select class="form-control" id="langSelect" name="lang" onchange="this.form.submit()">
+              <option value="en" <%= lang === 'en' ? 'selected' : '' %>>EN</option>
+              <option value="ru" <%= lang === 'ru' ? 'selected' : '' %>>RU</option>
+          </select>
+      </div>
+    </form>
+  </nav>
 
-    <div id="timer">Time Remaining: <span id="countdown"></span></div>
+  <main>
+    <h1><%= lang === 'ru' ? 'Крипто и финансовая Викторина' : 'Crypto and Finance Quiz' %></h1>
+
+    <div id="timer"><%= lang === 'ru' ? 'Времени осталось:' : 'Time Remaining:' %> <span id="countdown"></span></div>
   
     <form action="/quiz" id="quizForm" method="post">
       <div class="question">
-        <p>1. What does the term 'HODL' mean in the context of cryptocurrencies?</p>
-        <input type="radio" name="q1" value="a"> a) Hold On for Dear Life<br>
-        <input type="radio" name="q1" value="b"> b) High Octane Digital Ledger<br>
-        <input type="radio" name="q1" value="c"> c) Hyperlink Object Data Locator<br>
+        <p>1. <%= lang === 'ru' ? 'Что означает термин «HODL» в контексте криптовалют?' : 'What does the term «HODL» mean in the context of cryptocurrencies?' %></p>
+        <input type="radio" name="q1" value="a"> a) <%= lang === 'ru' ? 'Держись изо всех сил' : 'Hold On for Dear Life' %><br>
+        <input type="radio" name="q1" value="b"> b) <%= lang === 'ru' ? 'Высокооктановый цифровой реестр' : 'High Octane Digital Ledger' %><br>
+        <input type="radio" name="q1" value="c"> c) <%= lang === 'ru' ? 'Указатель данных объекта гиперссылки' : 'Hyperlink Object Data Locator' %><br>
       </div>
   
       <div class="question">
-        <p>2. Which cryptocurrency is known as the "digital gold"?</p>
-        <input type="radio" name="q2" value="a"> a) Ethereum<br>
-        <input type="radio" name="q2" value="b"> b) Bitcoin<br>
-        <input type="radio" name="q2" value="c"> c) Ripple<br>
+        <p>2. <%= lang === 'ru' ? 'Какую криптовалюту называют «цифровым золотом»?' : 'Which cryptocurrency is known as the «digital gold»?' %></p>
+        <input type="radio" name="q2" value="a"> a)<%= lang === 'ru' ? 'Эфириум' : 'Ethereum' %> <br>
+        <input type="radio" name="q2" value="b"> b)<%= lang === 'ru' ? 'Биткойн' : 'Bitcoin' %> <br>
+        <input type="radio" name="q2" value="c"> c)<%= lang === 'ru' ? 'Рипл' : 'Ripple' %> <br>
       </div>
   
       <div class="question">
-        <p>3. What is the purpose of a 'white paper' in the crypto world?</p>
-        <input type="radio" name="q3" value="a"> a) Technical documentation of a cryptocurrency project<br>
-        <input type="radio" name="q3" value="b"> b) Legal contract for crypto transactions<br>
-        <input type="radio" name="q3" value="c"> c) Marketing brochure for a crypto exchange<br>
+        <p>3. <%= lang === 'ru' ? 'Какова цель «белой бумаги» в мире криптовалют?' : 'What is the purpose of a «white paper» in the crypto world?' %></p>
+        <input type="radio" name="q3" value="a"> a) <%= lang === 'ru' ? 'Техническая документация криптовалютного проекта' : 'Technical documentation of a cryptocurrency project' %><br>
+        <input type="radio" name="q3" value="b"> b) <%= lang === 'ru' ? 'Юридический договор на криптотранзакции' : 'Legal contract for crypto transactions' %><br>
+        <input type="radio" name="q3" value="c"> c) <%= lang === 'ru' ? 'Выйти' : 'Marketing brochure for a crypto exchange' %><br>
       </div>
   
       <div class="question">
-        <p>4. What is the significance of the Dow Jones Industrial Average (DJIA) in finance?</p>
-        <input type="radio" name="q4" value="a"> a) Measures the performance of technology stocks<br>
-        <input type="radio" name="q4" value="b"> b) Tracks the overall performance of the stock market<br>
-        <input type="radio" name="q4" value="c"> c) Indicates the price of gold<br>
+        <p>4. <%= lang === 'ru' ? 'Каково значение промышленного индекса Доу-Джонса (DJIA) в финансах?' : 'What is the significance of the Dow Jones Industrial Average (DJIA) in finance?' %> </p>
+        <input type="radio" name="q4" value="a"> a) <%= lang === 'ru' ? 'Измеряет эффективность акций технологических компаний' : 'Measures the performance of technology stocks' %><br>
+        <input type="radio" name="q4" value="b"> b) <%= lang === 'ru' ? 'Отслеживает общую эффективность фондового рынка' : 'Tracks the overall performance of the stock market' %><br>
+        <input type="radio" name="q4" value="c"> c) <%= lang === 'ru' ? 'Указывает цену золота' : 'Indicates the price of gold' %><br>
       </div>
   
       <div class="question">
-        <p>5. What is a 'bear market'?</p>
-        <input type="radio" name="q5" value="a"> a) A market with increasing prices<br>
-        <input type="radio" name="q5" value="b"> b) A market with decreasing prices<br>
-        <input type="radio" name="q5" value="c"> c) A market with stable prices<br>
+        <p>5.<%= lang === 'ru' ? 'Что такое «медвежий рынок»?' : 'What is a «bear market»?' %> </p>
+        <input type="radio" name="q5" value="a"> a) <%= lang === 'ru' ? 'Рынок с растущими ценами' : 'A market with increasing prices' %><br>
+        <input type="radio" name="q5" value="b"> b) <%= lang === 'ru' ? 'Рынок с снижающимися ценами' : 'A market with decreasing prices' %><br>
+        <input type="radio" name="q5" value="c"> c) <%= lang === 'ru' ? 'Рынок со стабильными ценами' : 'A market with stable prices' %><br>
       </div>
   
-      <button type="submit">Submit Quiz</button>
+      <button type="submit"><%= lang === 'ru' ? 'Отправить тест' : 'Submit Quiz' %></button>
     </form>
+  </main>
+    
+
+  <footer class="bg-body-tertiary text-center text-lg-start">
+    <div class="text-center p-3" style="background-color: rgb(201, 196, 196);">
+      Gainatulin Dias
+      SE-2205
+    </div>
+  </footer>
 
   <script>
-    console.log('DOMContentLoaded event fired');
-    const countdownTime = 10;
-
-    let timeLeft = countdownTime;
+    let countdown = 30;
     const countdownElement = document.getElementById('countdown');
+    const timerElement = document.getElementById('timer');
 
-    function updateCountdown() {
-      const minutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
-      countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-    }
+    const timer = setInterval(() => {
+        countdown--;
+        countdownElement.textContent = countdown;
 
-    function submitQuiz() {
-      console.log('Submitting quiz');
-      const quizForm = document.getElementById('quizForm');
-      const formData = new FormData(quizForm);
-
-      fetch('/quiz', {
-        method: 'POST',
-        body: formData,
-      })
-        .then(response => {
-          if (response.ok) {
-              window.location.href = '/quizScore';
-          } else {
-              console.error('Error submitting quiz. Status:', response.status);
-          }
-        })
-        .catch(error => {
-          console.error('Error submitting quiz:', error);
-        });
-    }
-
-    function startCountdown() {
-      console.log('Countdown started');
-      const countdownInterval = setInterval(() => {
-        if (timeLeft > 0) {
-          timeLeft--;
-          updateCountdown();
-        } else {
-          clearInterval(countdownInterval);
-          submitQuiz();
+        if (countdown <= 0) {
+            clearInterval(timer);
+            timerElement.textContent = 'Время вышло! Отправка викторины...';
+            document.getElementById('quizForm').submit();
         }
-      }, 1000);
-    }
-
-    startCountdown();
+    }, 1000);
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
