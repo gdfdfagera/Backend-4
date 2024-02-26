@@ -11,6 +11,7 @@ router.get('', isAuthenticated, async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
+        const { coinId, vsCurrency } = req.body;
         const lang = req.query.lang || 'en';
         const response = await getStockPrice(req);
 
